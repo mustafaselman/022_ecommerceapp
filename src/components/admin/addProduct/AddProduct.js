@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import styles from "./AddProduct.module.scss"
 import Card from "../../card/Card"
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from '../../../firebase/config';
 import {toast} from "react-toastify"
-import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc, Timestamp } from 'firebase/firestore';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loader from '../../loader/Loader';
 import { selectProducts } from '../../../redux/slice/productSlice';
@@ -28,15 +28,20 @@ const initialState = {
 
 const AddProduct = () => {
   const {id} = useParams();
-  const [product, setProduct] = useState({
-    ...initialState
-  })
+  const products = useSelector(selectProducts)
+  const productEdit = products.find((item) => item.id === id)
+  const [product, setProduct] = useState(()=> {
+    const newState = detectForm(id, {...initialState},productEdit)
+    return newState
+  }
+  )
 
   const [uploadProgress,setUploadProgress] = useState(0)
   const [isLoading,setIsLoading] = useState(false)
 
   const navigate = useNavigate();
-  const products = useSelector(selectProducts)
+  
+
 
   function detectForm(id, f1, f2) {
     if(id === "ADD") {
@@ -82,11 +87,11 @@ const AddProduct = () => {
       const docRef = addDoc(collection(db, "products"), {
         name: product.name,
         imageURL: product.imageURL,
-        price: product.price,
+        price: Number(product.price),
         category: product.category,
         brand: product.brand,
         desc: product.desc,
-        createdAt: Timestamp.now().toDate()
+        createdAt: Timestamp.now().toDate(),
     });
     setIsLoading(false)
     setUploadProgress(0)
@@ -100,12 +105,29 @@ const AddProduct = () => {
     
   }
 
-  const editProduct = () => {
+  const editProduct = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
+    if(product.imageURL !== productEdit.imageURL){
+      const storageRef = ref(storage, productEdit.imageURL);
+      deleteObject(storageRef);
+    }
 
+    try {
+      setDoc(doc(db, "products", id ), {
+        name: product.name,
+        imageURL: product.imageURL,
+        price: Number(product.price),
+        category: product.category,
+        brand: product.brand,
+        desc: product.desc,
+        createdAt: productEdit.createdAt,
+        editedAt: Timestamp.now().toDate(),
+      });
+      setIsLoading(false);
+      toast.success("Product Edited Succesfully")
+      navigate("/admin/all-products")
     } catch (error) {
       setIsLoading(false);
       toast.error(error.message);
