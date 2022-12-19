@@ -80,7 +80,7 @@ const CheckoutForm = () =>
         }
 
     }
-}
+
 
 const handleSubmit = async (e) =>
 {

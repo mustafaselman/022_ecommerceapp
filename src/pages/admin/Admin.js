@@ -4,8 +4,9 @@ import AddProduct from '../../components/admin/addProduct/AddProduct'
 import Navbar from '../../components/admin/navbar/Navbar'
 import Orders from '../../components/admin/orders/Orders'
 import ViewProducts from '../../components/admin/viewProducts/ViewProducts'
-import Home from '../home/Home'
+import Home from '../../components/admin/home/Home'
 import styles from "./Admin.module.scss"
+import OrderDetails from '../../components/admin/orderDetails/OrderDetails'
 
 const Admin = () => {
   return (
@@ -13,12 +14,13 @@ const Admin = () => {
       <div className={styles.navbar}>
         <Navbar/>
       </div>
-      <div className={styles.context}>
+      <div className={styles.content}>
         <Routes>
           <Route path="home" element={<Home/>}/>
           <Route path="all-products" element={<ViewProducts/>}/>
           <Route path="add-product/:id" element={<AddProduct/>}/>
           <Route path="orders" element={<Orders/>}/>
+          <Route path="order-details/:id" element={<OrderDetails/>}/>
         </Routes>
       </div>
     </div>
