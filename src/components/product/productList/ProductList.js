@@ -17,7 +17,7 @@ const ProductList = ({ products }) =>
   const filteredProducts = useSelector(selectFilteredProducts)
 
   const [currentPage,setCurrentPage] = useState(1)
-  const [productsPerPage,setProductPerPage] = useState(9)
+  const [productsPerPage] = useState(9)
 
   const indexOfLastProduct = currentPage * productsPerPage
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage

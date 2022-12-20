@@ -41,9 +41,9 @@ const Chart = () => {
   const orders = useSelector(selectOrderHistory)
 
   const array = []
-  orders.map((item)=> {
+  orders.map((item) => {
     const {orderStatus} = item
-    array.push(orderStatus)
+    return array.push(orderStatus)
   })
   
   const getOrderCount = (arr, value) => {

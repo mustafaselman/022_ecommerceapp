@@ -7,7 +7,6 @@ import { toast } from 'react-toastify'
 import useFetchDocument from '../../customHooks/useFetchDocument'
 import { db } from '../../firebase/config'
 import { selectUserID, selectUserName } from '../../redux/slice/authSlice'
-import { selectProducts } from '../../redux/slice/productSlice'
 import Card from '../card/Card'
 import styles from "./ReviewProducts.module.scss"
 import spinnerImg from "../../assets/spinner.gif"
@@ -20,7 +19,6 @@ const ReviewProducts = () =>
     const [ product, setProduct ] = useState(null)
     const { id } = useParams()
     const { document } = useFetchDocument("products", id)
-    const products = useSelector(selectProducts)
     const userID = useSelector(selectUserID)
     const userName = useSelector(selectUserName)
 
