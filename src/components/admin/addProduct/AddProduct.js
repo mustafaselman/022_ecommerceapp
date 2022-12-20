@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styles from "./AddProduct.module.scss"
 import Card from "../../card/Card"
-import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from '../../../firebase/config';
 import {toast} from "react-toastify"
 import { addDoc, collection, doc, setDoc, Timestamp } from 'firebase/firestore';

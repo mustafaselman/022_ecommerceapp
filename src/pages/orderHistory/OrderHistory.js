@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Loader from '../../components/loader/Loader'
 import useFetchCollection from '../../customHooks/useFetchCollection'
 import { selectUserID } from '../../redux/slice/authSlice'
